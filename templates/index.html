@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Website</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/styles.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+    <script src="https://kit.fontawesome.com/5f42259ef2.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <div class="container">
+        <div class="sidebar">
+            <a href="/" class="home-button"><i class="fas fa-home"> Home <span></span></i></a>
+            {% if current_user %}
+                <div class="user-info">
+                    <img src="{{ url_for('static', path='avatars/' + current_user.avatar) }}" alt="Avatar">
+                    <p>{{ current_user.username }}</p>
+                </div>
+                <div class="user-options">
+                    <a href="/my-list"><i class="fas fa-heart"> My List <span></span></i></a>
+                    <a href="/messages"><i class="fas fa-envelope"> Messages <span></span></i></a>
+                    <a href="/friends"><i class="fas fa-user-friends"> Friends <span></span></i></a>
+                    <a href="/logout"><i class="fas fa-sign-out-alt"> Logout <span></span></i></a>
+                </div>
+            {% else %}
+                <a href="/login" class="login-button"><i class="fas fa-sign-in-alt"> Login <span></span></i></a>
+            {% endif %}
+        </div>
+        
+    <form action="/search" method="GET" class="search-form">
+
+        <input type="text" name="query" required="">
+        <label>
+            <span style="transition-delay:0ms">M</span>
+            <span style="transition-delay:50ms">o</span>
+            <span style="transition-delay:100ms">v</span>
+            <span style="transition-delay:150ms">i</span>
+            <span style="transition-delay:200ms">e</span>
+            <span style="transition-delay:250ms">s</span>
+            <span style="transition-delay:300ms"> </span>
+            <span style="transition-delay:350ms"><i class="fas fa-search"></i></span>
+        
+        </label>
+        <button class="search-button" type="submit">
+            <span class="actual-text">&nbsp;search&nbsp;</span>
+            <span class="hover-text" aria-hidden="true">&nbsp;search&nbsp;</span>
+        </button>
+
+    </form>    
+    
+    <div class="container wow animate__animated animate__fadeIn">
+        <h1 class="swiper-heading wow animate__animated animate__fadeInDown">Welcome to the Movie Website!</h1>
+            <div class="swiper-container">
+            <div class="swiper-wrapper">
+                {% for movie in movies %}
+                    <div class="swiper-slide">
+                        <div class="movie wow animate__animated animate__fadeIn">
+                            <div class="movie-poster">
+                                <div class="movie-poster2">
+                                    <img src="{{ movie.Poster }}" alt="{{ movie.Title }}">
+                                    Click for More Info
+                                    <hr color="white">
+                                    <a href="{{ url_for('movie_page', imdb_id=movie.imdbID) }}">View Details</a>
+                                </div> 
+                            </div>                            
+                            <div class="movie-details wow animate__animated animate__fadeIn"> 
+                                <h2>{{ movie.Title }}</h2>
+                                <p>Cast: {{ movie.Actors }}</p>
+                                <p>Release Date: {{ movie.Released.strftime('%d %b %y') }}</p>
+                                <p>Director: {{ movie.Director }}</p>
+                                <p>IMDb Rating: {{ movie.imdbRating }}</p>
+                            </div>
+                            <div class="movie-plot wow animate__animated animate__fadeIn">
+                                <h2>Plot:</h2>
+                                <p>{{ movie.Plot_s }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var swiper = new Swiper('.swiper-container', {
+                slidesPerView: 3,
+                spaceBetween: 10, // Adjust the spacing between movie containers
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true
+                },
+                on: {
+                    slideChange: function() {
+                        var activeSlideIndex = this.realIndex;
+                        $('.swiper-heading').text(movies[activeSlideIndex].Title);
+                    }
+                }
+            });
+
+            var isDetailsVisible = false;
+            var isPlotVisible = false;
+
+            $('.movie-poster').on('click', function() {
+                var $details = $(this).siblings('.movie-details');
+                var $plot = $(this).siblings('.movie-plot');
+
+                if (!isDetailsVisible) {
+                    $details.show();
+                    isDetailsVisible = true;
+                } else if (isDetailsVisible && !isPlotVisible) {
+                    $details.hide();
+                    $plot.show();
+                    isPlotVisible = true;
+                } else {
+                    $details.hide();
+                    $plot.hide();
+                    isDetailsVisible = false;
+                    isPlotVisible = false;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

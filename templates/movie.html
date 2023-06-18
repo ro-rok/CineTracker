@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ movie['Title'] }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/movie.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <script src="https://kit.fontawesome.com/5f42259ef2.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <div class="container">
+        <div class="sidebar">
+            <a href="/" class="home-button"><i class="fas fa-home"> Home <span></span></i></a>
+            {% if current_user %}
+                <div class="user-info">
+                    <img src="{{ url_for('static', path='avatars/' + current_user.avatar) }}" alt="Avatar">
+                    <p>{{ current_user.username }}</p>
+                </div>
+                <div class="user-options">
+                    <a href="/my-list"><i class="fas fa-heart"> My List <span></span></i></a>
+                    <a href="/messages"><i class="fas fa-envelope"> Messages <span></span></i></a>
+                    <a href="/friends"><i class="fas fa-user-friends"> Friends <span></span></i></a>
+                    <a href="/logout"><i class="fas fa-sign-out-alt"> Logout <span></span></i></a>
+                </div>
+            {% else %}
+                <a href="/login" class="login-button"><i class="fas fa-sign-in-alt"> Login <span></span></i></a>
+            {% endif %}
+    </div>
+
+    <form action="/search" method="GET" class="search-form">
+
+        <input type="text" name="query" required="">
+        <label>
+            <span style="transition-delay:0ms">M</span>
+            <span style="transition-delay:50ms">o</span>
+            <span style="transition-delay:100ms">v</span>
+            <span style="transition-delay:150ms">i</span>
+            <span style="transition-delay:200ms">e</span>
+            <span style="transition-delay:250ms">s</span>
+            <span style="transition-delay:300ms"> </span>
+            <span style="transition-delay:350ms"><i class="fas fa-search"></i></span>
+        
+        </label>
+        <button class="search-button" type="submit">
+            <span class="actual-text">&nbsp;search&nbsp;</span>
+            <span class="hover-text" aria-hidden="true">&nbsp;search&nbsp;</span>
+        </button>
+
+    </form> 
+    <div class="container">
+        <h1>Welcome to the Movie Website!</h1>
+
+        <div class="movie-posters wow animate__animated animate__fadeInUp">
+            <div class="movie-poster">
+                <img src="{{ movie['Poster'] }}" alt="{{ movie['Title'] }}">
+            </div>
+            <div class="movie-details">
+                <h2>{{ movie['Title'] }}</h2>
+                <div class="details">
+                    <div class="detail-row">
+                        <i class="fas fa-calendar-alt"></i>
+                        <p>Released: {{ movie['Released'].strftime('%d %B %Y') }}</p>
+                    </div>
+                    <div class="detail-row">
+                        <i class="fas fa-film"></i>
+                        <p>Genre: {{ movie['Genre'] }}</p>
+                    </div>
+                    <div class="detail-row">
+                        <i class="fas fa-users"></i>
+                        <p>Cast: {{ movie['Actors'] }}</p>
+                    </div>
+                    <div class="detail-row">
+                        <i class="fas fa-video"></i>
+                        <p>Director: {{ movie['Director'] }}</p>
+                    </div>
+                    <div class="detail-row">
+                        <i class="fas fa-pen"></i>
+                        <p>Writer: {{ movie['Writer'] }}</p>
+                    </div>
+                    <div class="detail-row">
+                        <i class="fas fa-award"></i>
+                        {% if movie['Awards'] != 'N/A' %}
+                            <p>Awards: {{ movie['Awards'] }}</p>
+                        {% else %}
+                            <p>Awards: Not available</p>
+                        {% endif %}
+                    </div>
+                    <div class="detail-row">
+                        <i class="fas fa-dollar-sign"></i>
+                        {% if movie['BoxOffice'] != 'N/A' %}
+                            <p>Box Office: {{ movie['BoxOffice'] }}</p>
+                        {% else %}
+                            <p>Box Office: Not available</p>
+                        {% endif %}
+                    </div>
+                    <div class="detail-row">
+                        <i class="fas fa-star"></i>
+                        <p>Ratings:</p>
+                        <ul>
+                            {% for rating in movie['Ratings'] %}
+                                <li>{{ rating['Source'] }}: {{ rating['Value'] }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="plot wow animate__animated animate__fadeIn">
+            <h3>Plot</h3>
+            <p>{{ movie['Plot_l'] }}</p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+    <script>
+        new WOW().init();
+    </script>
+</body>
+</html>

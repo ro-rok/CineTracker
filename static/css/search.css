@@ -1,0 +1,405 @@
+/* search.css */
+
+body {
+  background-color: #000;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  margin: 0;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/*search bar*/
+
+.search-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top:5px;
+  
+}
+.search-form input {
+  background-color: black;
+  border: 0;
+  border-bottom: 2px #37FF8B solid;
+  font-size: 18px;
+  display: block;
+  padding: -1px ;
+  font-family: "Arial";
+  color: #fff;
+  margin-top:inherit;
+  flex-grow: 1;
+}
+
+.search-form input:focus,
+.search-form input:valid {
+  outline: 0;
+  border-bottom-color: lightgreen;
+}
+
+.search-form label {
+  position: absolute;
+  margin-bottom: 0px;
+  left:225px;
+  top: 13px;
+  pointer-events: none;
+}
+
+.search-form label span {
+  display: inline-block;
+  min-width: -6px;
+  margin-top: 19px;
+  margin-bottom: 0px;
+  margin-left: 1px;
+  color: #fff;
+  transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.search-form input:focus+label span,
+.search-form input:valid+label span {
+  color: lightgreen;
+  transform: translateY(-30px);
+}
+
+.search-button {
+  margin: 0;
+  height: 25px;
+  background: transparent;
+  padding: 0;
+  border: none;
+  left:-6px;
+}
+
+/* search-button styling */
+.search-button {
+  --border-right: 6px;
+  --text-stroke-color: rgba(255,255,255,0.6);
+  --animation-color: #37FF8B;
+  --fs-size: 2em;
+  letter-spacing: 2px;
+  text-decoration: none;
+  font-size: 25px;
+  font-family: "Bodoni MT";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+/* this is the text, when you hover on search-button */
+.hover-text {
+  position: absolute;
+  box-sizing: border-box;
+  content: attr(data-text);
+  color: var(--animation-color);
+  width: 0%;
+  inset: 0;
+  border-right: var(--border-right) solid var(--animation-color);
+  overflow: hidden;
+  transition: 0.5s;
+  -webkit-text-stroke: 1px var(--animation-color);
+}
+/* hover */
+.search-button:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 23px var(--animation-color))
+}
+
+/* sidebar  */
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 160px;
+  height: 100%;
+  background-color: #000;
+  border-right: 2px solid #333;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.home-button{
+  margin-top:0px;
+  margin-bottom: 20px;
+  align-items: center;
+  position: relative;
+  display: flex;
+  padding: 12px 22px;
+  color: #fff;
+  font-size: 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: .5s;
+  letter-spacing: 4px
+}
+
+.home-button :hover {
+background: #031bf4;
+color: #fff;
+border-radius: 6px;
+box-shadow: 0 0 5px #031bf4,
+            0 0 25px #031bf4,
+            0 0 50px #031bf4,
+            0 0 100px #031bf4;
+}
+
+.home-button span {
+position: absolute;
+display: block;
+}
+
+@keyframes btn-anim1 {
+0% {
+  left: -100%;
+}
+
+50%,100% {
+  left: 100%;
+}
+}
+
+.home-button span:nth-child(1) {
+bottom: 2px;
+left: -100%;
+width: 110%;
+height: 3px;
+background: linear-gradient(90deg, transparent, #031bf4);
+animation: btn-anim1 2.1s linear infinite;
+}
+
+.home-button i {
+  margin-right: 10px;
+}
+
+.login-button{
+  margin-top:10px;
+  margin-bottom: 20px;
+  align-items: center;
+  position: relative;
+  display: flex;
+  padding: 10px 20px;
+  color: #fff;
+  font-size: 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: .5s;
+  letter-spacing: 4px
+}
+
+.login-button :hover {
+background: #03f40f;
+color: #fff;
+border-radius: 5px;
+box-shadow: 0 0 5px #03f40f,
+            0 0 25px #03f40f,
+            0 0 50px #03f40f,
+            0 0 100px #03f40f;
+}
+
+.login-button span {
+position: absolute;
+display: block;
+}
+
+@keyframes btn-anim1 {
+0% {
+  left: -100%;
+}
+
+50%,100% {
+  left: 100%;
+}
+}
+
+.login-button span:nth-child(1) {
+bottom: 2px;
+left: -100%;
+width: 90%;
+height: 2px;
+background: linear-gradient(90deg, transparent, #03f40f);
+animation: btn-anim1 2s linear infinite;
+}
+
+.login-button i {
+  margin-right: 10px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-top:100px;
+  margin-bottom: 20px;
+}
+
+.user-info img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+  
+}
+
+.user-options {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-top:40px;
+  margin-left:-20px;
+}
+
+.user-options a{
+  margin-bottom: 20px;
+  align-items: center;
+  position: relative;
+  display: flex;
+  padding: 10px 20px;
+  color: #fff;
+  font-size: 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: .5s;
+  letter-spacing: 2px
+}
+
+.user-options a :hover {
+background: red;
+color: #fff;
+border-radius: 5px;
+box-shadow: 0 0 5px red,
+            0 0 25px red,
+            0 0 50px red,
+            0 0 100px red;
+}
+
+.user-options a span {
+position: absolute;
+display: block;
+}
+
+@keyframes btn-anim1 {
+0% {
+  left: -100%;
+}
+
+50%,100% {
+  left: 100%;
+}
+}
+
+.user-options a span:nth-child(1) {
+bottom: 2px;
+left: -100%;
+width: 90%;
+height: 2px;
+background: linear-gradient(90deg, transparent, red);
+animation: btn-anim1 2s linear infinite;
+}
+
+.user-options i {
+  margin-right: 10px;
+}
+
+/*other */
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 32px;
+}
+
+.movies { 
+display: grid;
+ margin-left: 30px; 
+ grid-template-columns: repeat(3, 1fr);
+  grid-gap: 25px;
+  margin-top: 3px;
+  
+}
+
+.movie img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  z-index:1
+}
+
+
+.movie a {
+  text-decoration: none;
+  color: #fff;
+z-index:1;
+}
+
+
+.movie {
+  text-align: center;
+  border-radius: 8px;
+  padding: 8px;
+  transition: transform 0.3s ease;
+  background: #111111;
+  position: relative;
+  display: flex;
+  place-content: center;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.movie h2 {
+z-index: 1;
+color: white;
+font-size: 16px;
+}
+
+.movie:hover {
+transform: translateY(-5px);
+z-index:1;
+} 
+
+
+.movie::before {
+content: '';
+position: absolute;
+width: 100px;
+background-image: linear-gradient(180deg, rgb(0, 183, 255), rgb(255, 48, 255));
+height: 130%;
+animation: rotBGimg 3s linear infinite;
+transition: all 0.2s linear;
+z-index:-1;
+}
+
+@keyframes rotBGimg {
+from {
+  transform: rotate(0deg);
+}
+
+to {
+  transform: rotate(360deg);
+}
+}
+
+.movie::after {
+content: '';
+position: absolute;
+background: black;
+;
+inset: 5px;
+border-radius: 15px;
+z-index:-1
+}  
+
+
+
+
+
