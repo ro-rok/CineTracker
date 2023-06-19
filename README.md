@@ -1,10 +1,6 @@
 # Movie Website - Explore and Discover Movies
 
-This project is a Movie Website that allows users to explore and discover movies. It provides features such as searching for movies, displaying movie details, and storing user preferences.
-
-## Project Overview
-
-The Movie Website is built using FastAPI, a modern, fast (high-performance), web framework for building APIs with Python 3.7+.
+This project is a web application that allows users to explore and discover movies. It provides functionalities such as searching for movies, viewing movie details, registering as a user, and logging in/out. The application uses the OMDb API to fetch movie data and MongoDB for data storage.
 
 ## Project Structure
 
@@ -20,12 +16,42 @@ The project structure is as follows:
 
 The Movie Website includes the following features:
 
-- User Authentication: Users can create an account and log in to the website.
-- Movie Search: Users can search for movies based on various criteria.
-- Movie Details: Detailed information about each movie is displayed, including title, release year, genre, and more.
-- User Preferences: Users can save movies to their favorites or watchlist.
-- Random Movie Suggestions: The website suggests random movies to users based on predefined word lists.
-- API Integration: The OMDb API is used to fetch movie data.
+### Homepage:
+-Carousel for Movie Posters: The homepage features a carousel that displays movie posters. Users can navigate through the carousel to view different movie posters.<br />
+-Movie Details: Clicking on a movie poster in the carousel will reveal the user to the movie details page. The movie details page provides compendious information about the selected movie, including its title, cast, plot, director, release date, and IMDb rating.<br />
+-Synopsis Display: By double-clicking on a movie poster, users can switch between viewing the detailed movie information and a brief synopsis.<br />
+-Sidebar: The sidebar changes based on whether the user is logged in or not. When logged in, it displays user details, including the user's avatar and username.<br />
+-Search Form: The website provides a search form that allows users to search for movies based on their query. The search results page displays a list of movies related to the search query.<br />
+
+### Movie Details
+-Movie Details Page:<br />
+• The /movie/{imdb_id} route renders the movie.html template for the specified IMDb ID.<br />
+• It retrieves movie data from the MongoDB database and, if not found, creates a new movie entry using the IMDb ID.<br />
+• The movie details page displays information such as title, year, genre, director, actors, plot, and poster image.<br />
+
+### Movie Search
+-Movie Search Functionality:<br />
+• The /search route allows users to search for movies based on a query string.<br />
+• It retrieves search results from the OMDb API using the provided query and displays the results in the search.html template.<br />
+• The search results include movie titles, release years, and posters.<br />
+
+
+### User Registration
+-User Registration Page:<br />
+• The /register route renders the register.html template, which displays a registration form.<br />
+• Users can enter a username, password, confirm password, and choose an avatar image.<br />
+• The registration form validates the input and adds a new user to the MongoDB database if all requirements are met.<br />
+
+### User Login/Logout
+-User Login Page: <br />
+• The /login route renders the login.html template, which displays a login form.<br />
+• Users can enter their username and password to log into the application.<br />
+• The login form verifies the user's credentials and sets the user ID in a cookie upon <br />
+
+-User Logout: <br />
+• The /logout route logs out the user by deleting the user ID cookie.<br />
+• After logging out, the user is redirected to the homepage.<br />
+
 
 ## Getting Started
 
