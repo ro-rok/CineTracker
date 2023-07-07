@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ movie['Title'] }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/movie.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="icon" href="{{ url_for('static', path='favicon.png') }}">
+    <script src="https://kit.fontawesome.com/5f42259ef2.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <div class="sidebar animate__animated animate__fadeInLeft">
+        <div class="logo">
+            <div class="logo-photo">
+                <img src="{{ url_for('static', path='logo.png' ) }}" alt="Logo">
+            </div>
+            <div class="logo-social">Check out my socials:</div>
+            <div class="logo-socials">
+                <a class="logo-socials-btn github" href="https://github.com/ro-rok/">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg>
+                </a>
+                <a class="logo-socials-btn linkedin" href="https://www.linkedin.com/in/khanna-rohan178/">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="512" viewBox="0 0 512 512" height="512"><path d="m51.326 185.85h90.011v270.872h-90.011zm45.608-130.572c-30.807 0-50.934 20.225-50.934 46.771 0 26 19.538 46.813 49.756 46.813h.574c31.396 0 50.948-20.814 50.948-46.813-.589-26.546-19.551-46.771-50.344-46.771zm265.405 124.209c-47.779 0-69.184 26.28-81.125 44.71v-38.347h-90.038c1.192 25.411 0 270.872 0 270.872h90.038v-151.274c0-8.102.589-16.174 2.958-21.978 6.519-16.174 21.333-32.923 46.182-32.923 32.602 0 45.622 24.851 45.622 61.248v144.926h90.024v-155.323c0-83.199-44.402-121.911-103.661-121.911z"></path></svg>
+                </a>
+            </div>
+        </div>
+        <a href="/" class="home-button"><i class="fas fa-home"> Home <span></span></i></a>
+        <a href="/random" class="random-button"><i class="fas fa-random"> Random <span></span></i></a>
+        {% if current_user %}
+            <div class="user">
+                <div class="user-info">
+                    <img src="{{ url_for('static', path='avatars/' + current_user.avatar) }}" alt="Avatar">
+                    <p>{{ current_user.username }}</p>
+                </div>
+                <div class="user-options">
+                    <a href="{{ url_for('movie_list', username=current_user.username) }}"><i class="fas fa-list"> My List <span></span></i></a>
+                    <a href="/game"><i class="fas fa-gamepad"> Game <span></span></i></a>
+                    <a href="/logout"><i class="fas fa-sign-out-alt"> Logout <span></span></i></a>
+                </div>
+            </div>
+        {% else %}
+            <a href="/login" class="login-button"><i class="fas fa-sign-in-alt"> Login <span></span></i></a>
+        {% endif %}
+    </div>
+    
+    <form action="/search" method="GET" class="search-form">
+
+        <input type="text" name="query" required="">
+        <label>
+            <span style="transition-delay:0ms">M</span>
+            <span style="transition-delay:50ms">o</span>
+            <span style="transition-delay:100ms">v</span>
+            <span style="transition-delay:150ms">i</span>
+            <span style="transition-delay:200ms">e</span>
+            <span style="transition-delay:250ms">s</span>
+            <span style="transition-delay:300ms"> </span>
+            <span style="transition-delay:350ms"><i class="fas fa-search"></i></span>
+        
+        </label>
+        <button class="search-button" type="submit">
+            <span class="actual-text">&nbsp;search&nbsp;</span>
+            <span class="hover-text" aria-hidden="true">&nbsp;search&nbsp;</span>
+        </button>
+
+    </form>
+    
+    <div class="form-container wow animate__animated animate__fadeInRight">
+        {% if current_user %}
+            {% set user_movie = current_user.list | selectattr('imdbID', 'equalto', movie.imdbID) | first %}
+            {% if user_movie %}
+                <div class="form-box">
+                    <h2>Actions</h2>
+                    <form  action="/movie/{{ movie.imdbID }}" method="post">
+                        <div class="radio-input">
+                            <input type="hidden" name="action" value="update">
+                            <div class="glass">
+                                <div class="glass-inner"></div>
+                            </div>
+                            <div class="selector">
+                                <div class="choice">
+                                    <div>
+                                    <input type="radio" name="category" value="Watched" class="choice-circle" {% if user_movie.Status == "Watched" %}checked{% endif %}>
+                                    <div class="ball"></div>
+                                    </div>
+                                    <label class="choice-name" for="Watched">Watched</label>
+                                </div><br>
+                                <div class="choice">
+                                    <div>
+                                    <input type="radio" name="category" value="Plan to Watch" class="choice-circle" {% if user_movie.Status == "Plan to Watch" %}checked{% endif %}>
+                                    <div class="ball"></div>
+                                    </div>
+                                    <label class="choice-name" for="plan_to_watch">Plan to Watch</label>
+                                </div><br>
+                                <div class="choice">
+                                    <div>
+                                    <input type="radio" name="category" value="Dropped" class="choice-circle" {% if user_movie.Status == "Dropped" %}checked{% endif %}>
+                                    <div class="ball"></div>
+                                    </div>
+                                    <label class="choice-name" for="Dropped">Dropped</label>
+                                </div><br>
+                            </div> 
+                        </div>
+                        <div class="rating">
+                            {% for star in range(10, 0, -1) %}
+                            <input value="{{ star }}" name="rating" id="star-{{ star }}" type="radio" class="score-input" {% if star >= user_movie.Rating %}checked{% endif %}>
+                            <label for="star-{{ star }}">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" pathLength="360"></path></svg>
+                            </label>
+                            {% endfor %}
+                        </div>                        
+                        <button class="movie-list-button" type="submit">Update Status</button>
+                    </form>
+                </div>
+                <div class="form-box">
+                    <form action="/movie/{{ movie.imdbID }}" method="post">
+                        <input type="hidden" name="action" value="delete">
+                        <button class="movie-list-button" type="submit">Delete from List</button>
+                    </form>
+                </div>
+            {% else %}
+            <div class="form-box">
+                <h2>Add to List</h2>
+                <form  action="/movie/{{ movie.imdbID }}" method="post">
+                    <div class="radio-input">
+                        <input type="hidden" name="action" value="add">
+                        <div class="glass">
+                            <div class="glass-inner"></div>
+                        </div>
+                        <div class="selector">
+                            <div class="choice">
+                                <div>
+                                <input type="radio" name="category" value="Watched" class="choice-circle">
+                                <div class="ball"></div>
+                                </div>
+                                <label class="choice-name" for="Watched">Watched</label>
+                            </div><br>
+                            <div class="choice">
+                                <div>
+                                <input type="radio" name="category" value="Plan to Watch" class="choice-circle">
+                                <div class="ball"></div>
+                                </div>
+                                <label class="choice-name" for="plan_to_watch">Plan to Watch</label>
+                            </div><br>
+                            <div class="choice">
+                                <div>
+                                <input type="radio" name="category" value="Dropped" class="choice-circle">
+                                <div class="ball"></div>
+                                </div>
+                                <label class="choice-name" for="Dropped">Dropped</label>
+                            </div><br>
+                        </div> 
+                    </div>
+                    <div class="rating">
+                        {% for star in range(10, 0, -1) %}
+                            <input value="{{ star }}" name="rating" id="star-{{ star }}" type="radio" class="score-input">
+                            <label for="star-{{ star }}">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" pathLength="360"></path></svg>
+                            </label>
+                        {% endfor %}
+                    </div>
+                    <button class="movie-list-button" type="submit">Add to List</button>
+                </form>
+            </div>
+            {% endif %}
+        {% else %}
+        <div class="form-box">
+            <p class="movie-list-error"><em>Please log in to add or manage your movie list.</em></p>
+        </div>
+        {% endif %}
+    
+    </div>
+    <div class="movie">
+    
+        <h1>Welcome to the Movie Website!</h1>
+
+        <div class="movie-posters wow animate__animated animate__fadeInUp">
+            <div class="movie-poster">
+                <img src="{{ movie['Poster'] }}" alt="{{ movie['Title'] }}">
+                <svg class="svg-bgCarrier" stroke-width="0"></svg>
+                <svg class="svg-tracerCarrier" stroke-linejoin="round" stroke-linecap="round"></svg>
+            </div>
+        </div>
+               
+        <div class="movie-details">
+            <h2>{{ movie['Title'] }}</h2>
+            <div class="details">
+                <div class="detail-row">
+                    <i class="fas fa-calendar-alt"></i>
+                    <p>Released: {{ movie['Released'].strftime('%d %B %Y') }}</p>
+                </div> 
+                <div class="detail-row">
+                    <i class="fas fa-film"></i>
+                    <p>Genre: {{ movie['Genre'] }}</p>
+                </div>
+                <div class="detail-row">
+                    <i class="fas fa-users"></i>
+                    <p>Cast: {{ movie['Actors'] }}</p>
+                </div>
+                <div class="detail-row">
+                    <i class="fas fa-video"></i>
+                    <p>Director: {{ movie['Director'] }}</p>
+                </div>
+                <div class="detail-row">
+                    <i class="fas fa-pen"></i>
+                    <p>Writer: {{ movie['Writer'] }}</p>
+                </div>
+                <div class="detail-row">
+                    <i class="fas fa-award"></i>
+                    {% if movie['Awards'] != 'N/A' %}
+                        <p>Awards: {{ movie['Awards'] }}</p>
+                    {% else %}
+                        <p>Awards: Not available</p>
+                    {% endif %}
+                </div>
+                <div class="detail-row">
+                    <i class="fas fa-dollar-sign"></i>
+                    {% if movie['BoxOffice'] != 'N/A' %}
+                        <p>Box Office: {{ movie['BoxOffice'] }}</p>
+                    {% else %}
+                        <p>Box Office: Not available</p>
+                    {% endif %}
+                </div>
+                <div class="detail-row">
+                    <i class="fas fa-star"></i>
+                    <p>Ratings:</p>
+                    <ul>
+                        {% for rating in movie['Ratings'] %}
+                            <li>{{ rating['Source'] }}: {{ rating['Value'] }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="plot wow animate__animated animate__fadeIn">
+            <h3>Plot</h3>
+            <p>{{ movie['Plot_l'] }}</p>
+        </div>
+
+        
+        {% if user_review %}
+            <hr /> 
+            <h3><center>Your Review</h3></center>
+            <div class="review  wow animate__animated animate__fadeIn">
+                <div class="user-info wow animate__animated animate__fadeIn">
+                    <img src="{{ url_for('static', path='avatars/' + current_user.avatar) }}" alt="Avatar">
+                    <p>{{ current_user['username'] }}</p>
+                </div>
+                <div class="rating-section wow animate__animated animate__fadeIn">
+                    <p>Your Rating:</p>
+                    <div class="rating wow animate__animated animate__fadeIn">
+                        {% for star in range(10, 0, -1) %}
+                            <input value="{{ star }}" name="rating-user_review" id="star-{{ star }}-user_review" type="radio" class="score-input  wow animate__animated animate__fadeIn" {% if star == user_review.rating %}checked{% endif %}>
+                            <label for="star-{{ star }}-user_review">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" pathLength="360"></path></svg>
+                            </label>
+                        {% endfor %}
+                    </div>
+                    <p>Recommend:</p>
+                    <div class="love  wow animate__animated animate__fadeIn">
+                        <input type="checkbox" id="recommend-user_review" name="recommend-user_review" {% if user_review.recommend %}checked=True {% endif %}>
+                        <label class="love-heart  wow animate__animated animate__fadeIn" for="recommend-user_review">
+                            <i class="left wow animate__animated animate__fadeIn"></i>
+                            <i class="right wow animate__animated animate__fadeIn"></i>
+                            <i class="bottom wow animate__animated animate__fadeIn"></i>
+                            <div class="round wow animate__animated animate__fadeIn "></div>
+                        </label>
+                    </div>
+                </div>
+                <p class="review-text  wow animate__animated animate__fadeIn">{{ user_review.review }}</p>
+                <center><a class="wow animate__animated animate__fadeIn" href="/review/{{ movie['imdbID'] }}">Edit Review</a></center>
+            </div>
+        {% endif %}
+
+        <hr class=" wow animate__animated animate__fadeIn" />  
+
+        <center><h3>Latest Reviews</h3></center>
+        {% for review in reviews[:2] %}
+            <div class="review  wow animate__animated animate__fadeIn">
+                <div class="user-info  wow animate__animated animate__fadeIn">
+                    <img src="{{ url_for('static', path='avatars/' + review.avatar) }}" alt="Avatar">
+                    <p>{{ review['username'] }}</p>
+                </div>
+                
+                <div class="rating-section  wow animate__animated animate__fadeIn">
+                    <p>Rating:</p>
+                    <div class="rating  wow animate__animated animate__fadeIn">
+                        {% for star in range(10, 0, -1) %}
+                            <input value="{{ star }}" name="rating-{{ review['username'] }}" id="star-{{ star }}-{{ review['username'] }}" type="radio" class="score-input  wow animate__animated animate__fadeIn" {% if star == review.rating %}checked{% endif %}>
+                            <label for="star-{{ star }}- {{ review['username'] }}">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" pathLength="360"></path></svg>
+                            </label>
+                        {% endfor %}
+                    </div>
+                    <p class=" wow animate__animated animate__fadeIn">Recommend:</p>
+                    <div class="love  wow animate__animated animate__fadeIn">
+                        <input type="checkbox" id="recommend-{{ review['username'] }}" name="recommend-{{ review['username'] }}" {% if review.recommend %}checked=True {% endif %}>
+                        <label class="wow animate__animated animate__fadeIn love-heart" for="recommend-{{ review['username'] }}">
+                            <i class="wow animate__animated animate__fadeIn left"></i>
+                            <i class="wow animate__animated animate__fadeIn right"></i>
+                            <i class="wow animate__animated animate__fadeIn bottom"></i>
+                            <div class="wow animate__animated animate__fadeIn round"></div>
+                        </label>
+                    </div>
+                
+                </div>
+                <p class="review-text  wow animate__animated animate__fadeIn">{{ review.review }}</p>                
+            </div>
+        {% endfor %}
+        <div class="review  wow animate__animated animate__fadeIn">
+            {% if reviews %}
+                {% if reviews|length > 2 %}
+                    <a class="wow animate__animated animate__fadeIn" href="/review/{{ movie['imdbID'] }}">Add a Review</a>
+                    <a class="wow animate__animated animate__fadeIn" style="margin-left:500px;" href="/review/{{ movie['imdbID'] }}/all">See All Reviews</a>
+                {% else %}
+                    <center><a class="wow animate__animated animate__fadeIn" href="/review/{{ movie['imdbID'] }}">Add a Review</a></center>
+                {% endif %}
+            {% else %}
+                <center><h4>No reviews yet.</h4>
+                <a class="wow animate__animated animate__fadeIn" href="/review/{{ movie['imdbID'] }}">Add a Review</a></center>
+            {% endif %}
+            
+        </div>
+
+
+        <hr class="wow animate__animated animate__fadeIn" /> 
+    </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+    <script>
+        new WOW().init();
+    </script>
+</body>
+</html>

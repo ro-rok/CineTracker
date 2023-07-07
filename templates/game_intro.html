@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Comparison Game</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/game_intro.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="icon" href="{{ url_for('static', path='favicon.png') }}">
+    <script src="https://kit.fontawesome.com/5f42259ef2.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="sidebar animate__animated animate__fadeInLeft">
+        <div class="logo">
+            <div class="logo-photo">
+                <img src="{{ url_for('static', path='logo.png' ) }}" alt="Logo">
+            </div>
+            <div class="logo-social">Check out my socials:</div>
+            <div class="logo-socials">
+                <a class="logo-socials-btn github" href="https://github.com/ro-rok/">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg>
+                </a>
+                <a class="logo-socials-btn linkedin" href="https://www.linkedin.com/in/khanna-rohan178/">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="512" viewBox="0 0 512 512" height="512"><path d="m51.326 185.85h90.011v270.872h-90.011zm45.608-130.572c-30.807 0-50.934 20.225-50.934 46.771 0 26 19.538 46.813 49.756 46.813h.574c31.396 0 50.948-20.814 50.948-46.813-.589-26.546-19.551-46.771-50.344-46.771zm265.405 124.209c-47.779 0-69.184 26.28-81.125 44.71v-38.347h-90.038c1.192 25.411 0 270.872 0 270.872h90.038v-151.274c0-8.102.589-16.174 2.958-21.978 6.519-16.174 21.333-32.923 46.182-32.923 32.602 0 45.622 24.851 45.622 61.248v144.926h90.024v-155.323c0-83.199-44.402-121.911-103.661-121.911z"></path></svg>
+                </a>
+            </div>
+        </div>
+        <a href="/" class="home-button"><i class="fas fa-home"> Home <span></span></i></a>
+        <a href="/random" class="random-button"><i class="fas fa-random"> Random <span></span></i></a>
+        {% if current_user %}
+            <div class="user">
+                <div class="user-info">
+                    <img src="{{ url_for('static', path='avatars/' + current_user.avatar) }}" alt="Avatar">
+                    <p>{{ current_user.username }}</p>
+                </div>
+                <div class="user-options">
+                    <a href="{{ url_for('movie_list', username=current_user.username) }}"><i class="fas fa-list"> My List <span></span></i></a>
+                    <a href="/game"><i class="fas fa-gamepad"> Game <span></span></i></a>
+                    <a href="/logout"><i class="fas fa-sign-out-alt"> Logout <span></span></i></a>
+                </div>
+            </div>
+        {% else %}
+            <a href="/login" class="login-button"><i class="fas fa-sign-in-alt"> Login <span></span></i></a>
+        {% endif %}
+    </div>
+         
+    <div class="game">
+        <h1 class="wow animate__animated animate__fadeInUp">Welcome to the Movie Comparison Game! </h1>
+        <h2 class="wow animate__animated animate__fadeInRight" style="text-align: left;"><i class="fas fa-book"></i> Rules:</h2>
+        <ul class="wow animate__animated animate__jackInTheBox">
+            <li><i class="fas fa-check"></i> You will be shown two movies and you need to guess which movie has the higher IMDb rating.</li>
+            <li><i class="fas fa-check"></i> Each correct guess will earn you one point.</li>
+            <li><i class="fas fa-check"></i> You have three lives. A wrong guess will deduct one life.</li>
+            <li><i class="fas fa-check"></i> The game will continue until you lose all three lives.</li>
+        </ul>
+
+        <center><a href="/start_game" class="bannerContainer wow animate__animated animate__slideInUp">
+            <div class="banner">         
+            <div class="loader loader1"></div>
+            <div class="loader loader2"></div>
+            <div class="loader loader3"></div>
+            <div class="loader mainCard">
+                <svg id="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+                <path fill="#393E41" d="M192 64C86 64 0 150 0 256S86 448 192 448H448c106 0 192-86 192-192s-86-192-192-192H192zM496 248c-22.1 0-40-17.9-40-40s17.9-40 40-40s40 17.9 40 40s-17.9 40-40 40zm-24 56c0 22.1-17.9 40-40 40s-40-17.9-40-40s17.9-40 40-40s40 17.9 40 40zM168 200c0-13.3 10.7-24 24-24s24 10.7 24 24v32h32c13.3 0 24 10.7 24 24s-10.7 24-24 24H216v32c0 13.3-10.7 24-24 24s-24-10.7-24-24V280H136c-13.3 0-24-10.7-24-24s10.7-24 24-24h32V200z"></path>
+                </svg>
+                <span>{% if game_over %} Retry??? {% else %} Ready Up! {% endif %}</span>
+                <svg id="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+                <path fill="#393E41" d="M192 64C86 64 0 150 0 256S86 448 192 448H448c106 0 192-86 192-192s-86-192-192-192H192zM496 248c-22.1 0-40-17.9-40-40s17.9-40 40-40s40 17.9 40 40s-17.9 40-40 40zm-24 56c0 22.1-17.9 40-40 40s-40-17.9-40-40s17.9-40 40-40s40 17.9 40 40zM168 200c0-13.3 10.7-24 24-24s24 10.7 24 24v32h32c13.3 0 24 10.7 24 24s-10.7 24-24 24H216v32c0 13.3-10.7 24-24 24s-24-10.7-24-24V280H136c-13.3 0-24-10.7-24-24s10.7-24 24-24h32V200z"></path>
+                </svg>
+                <div class="loader secondCard">
+                <span>Start the Game</span>
+                </div>
+            </div>
+            </div>
+        </a></center>
+        
+        {% if game_over %}
+            {% if better %}
+            <div class="notification_good animate__animated animate__zoomIn" id="notification">
+                {% if rank ==2 or rank == 3 %}
+                <span class="star star1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#ffa710" d="m22 9.8c0 .2-.104.4-.312.6l-4.363 4.2 1.033 6.1c.008 0 .012.1.012.2 0 .2-.044.3-.132.4-.08.1-.2.2-.361.2-.152 0-.312 0-.48-.1l-5.397-2.9-5.397 2.9c-.176.1-.336.1-.48.1-.169 0-.297-.1-.385-.2-.08-.1-.12-.2-.12-.4 0 0 .008-.1.024-.2l1.033-6.1-4.375-4.2c-.2-.2-.3-.4-.3-.6 0-.3.224-.5.673-.5l6.034-.9 2.704-5.5c.152-.3.349-.5.589-.5s.437.2.589.5l2.704 5.5 6.034.9c.449 0 .673.2.673.5"></path><path fill="#fdd921" d="m22 8.8c0 .2-.104.4-.312.6l-4.363 4.2 1.033 6.1c.008 0 .012.1.012.2 0 .2-.044.3-.132.4-.08.1-.2.2-.361.2-.152 0-.312 0-.48-.1l-5.397-2.9-5.397 2.9c-.176.1-.336.1-.48.1-.169 0-.297-.1-.385-.2-.08-.1-.12-.2-.12-.4 0 0 .008-.1.024-.2l1.033-6.1-4.375-4.2c-.2-.2-.3-.4-.3-.6 0-.3.224-.5.673-.5l6.034-.9 2.704-5.5c.152-.3.349-.5.589-.5s.437.2.589.5l2.704 5.5 6.034.9c.449 0 .673.2.673.5"></path></svg></span>    
+                {% endif %}
+                {% if rank == 1 or rank == 3 %}
+                <span class="star star2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#ffa710" d="m22 9.8c0 .2-.104.4-.312.6l-4.363 4.2 1.033 6.1c.008 0 .012.1.012.2 0 .2-.044.3-.132.4-.08.1-.2.2-.361.2-.152 0-.312 0-.48-.1l-5.397-2.9-5.397 2.9c-.176.1-.336.1-.48.1-.169 0-.297-.1-.385-.2-.08-.1-.12-.2-.12-.4 0 0 .008-.1.024-.2l1.033-6.1-4.375-4.2c-.2-.2-.3-.4-.3-.6 0-.3.224-.5.673-.5l6.034-.9 2.704-5.5c.152-.3.349-.5.589-.5s.437.2.589.5l2.704 5.5 6.034.9c.449 0 .673.2.673.5"></path><path fill="#fdd921" d="m22 8.8c0 .2-.104.4-.312.6l-4.363 4.2 1.033 6.1c.008 0 .012.1.012.2 0 .2-.044.3-.132.4-.08.1-.2.2-.361.2-.152 0-.312 0-.48-.1l-5.397-2.9-5.397 2.9c-.176.1-.336.1-.48.1-.169 0-.297-.1-.385-.2-.08-.1-.12-.2-.12-.4 0 0 .008-.1.024-.2l1.033-6.1-4.375-4.2c-.2-.2-.3-.4-.3-.6 0-.3.224-.5.673-.5l6.034-.9 2.704-5.5c.152-.3.349-.5.589-.5s.437.2.589.5l2.704 5.5 6.034.9c.449 0 .673.2.673.5"></path></svg></span>
+                {% endif %}
+                {% if rank==2 or rank == 3 %}
+                <span class="star star3"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#ffa710" d="m22 9.8c0 .2-.104.4-.312.6l-4.363 4.2 1.033 6.1c.008 0 .012.1.012.2 0 .2-.044.3-.132.4-.08.1-.2.2-.361.2-.152 0-.312 0-.48-.1l-5.397-2.9-5.397 2.9c-.176.1-.336.1-.48.1-.169 0-.297-.1-.385-.2-.08-.1-.12-.2-.12-.4 0 0 .008-.1.024-.2l1.033-6.1-4.375-4.2c-.2-.2-.3-.4-.3-.6 0-.3.224-.5.673-.5l6.034-.9 2.704-5.5c.152-.3.349-.5.589-.5s.437.2.589.5l2.704 5.5 6.034.9c.449 0 .673.2.673.5"></path><path fill="#fdd921" d="m22 8.8c0 .2-.104.4-.312.6l-4.363 4.2 1.033 6.1c.008 0 .012.1.012.2 0 .2-.044.3-.132.4-.08.1-.2.2-.361.2-.152 0-.312 0-.48-.1l-5.397-2.9-5.397 2.9c-.176.1-.336.1-.48.1-.169 0-.297-.1-.385-.2-.08-.1-.12-.2-.12-.4 0 0 .008-.1.024-.2l1.033-6.1-4.375-4.2c-.2-.2-.3-.4-.3-.6 0-.3.224-.5.673-.5l6.034-.9 2.704-5.5c.152-.3.349-.5.589-.5s.437.2.589.5l2.704 5.5 6.034.9c.449 0 .673.2.673.5"></path></svg></span>   
+                {% endif %}
+                <div class="ribbon">
+                    <div class="ribbon-content">Rank : {{ rank }}</div>
+                    <div class="start"> Your score: {{ user_score}} </div>
+                </div>   
+            </div>
+            {% else %}
+            <div class="notification_bad animate__animated animate__zoomIn" id="notification">
+                    <div id="goku">
+                    <div class="head"></div>
+                    <div class="body"></div>
+                    <div class="leg"></div>
+                    <div class="shadow"></div>
+                    </div>
+                
+                <span class="dirt">
+                    <div class="text">
+                    <span class="font hover">Sad</span>
+                    <span class="font-text hover">You did worse than your last time</span>
+                    <span class="font-power hover">Score: {{ user_score }}</span>
+                    </div>
+                    <div class="parchment"> 
+                    </div>
+                </span>
+            </div>
+            {% endif %}    
+        {% endif %}
+
+        <h2 class="wow animate__animated animate__rotateInDownLeft"><i class="fas fa-trophy"></i> Leaderboard: </h2>
+        <table class="wow animate__animated animate__rotateInUpLeft">
+            <thead>
+                <tr>
+                    <th class="rank">Rank</th>
+                    <th>Username</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in leaderboard %}
+                <tr>
+                    <td> {% if loop.index <4 %} <i class="fas fa-medal"></i> {% endif %} {{ loop.index }} </td>
+                    <td>
+                        <img src="{{ url_for('static', path='avatars/' + user.avatar) }}" alt="Avatar">
+                        <p style="display: contents;">{{ user.username }}</p>
+                    </td>
+                    <td><i class="fas fa-star"></i> {{ user.score }} </i></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+    <script>
+        new WOW().init();
+    </script>
+    <script>
+        const box = document.getElementById('notification');
+        setTimeout(() => {
+            box.classList.add('animate__zoomOut');
+            setTimeout(() => {
+                box.style.display = 'none';
+            }, 3000);
+        }, 4500);        
+    </script>
+
+    
+</body>
+</html>

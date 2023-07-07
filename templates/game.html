@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Comparison Game</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/game.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="icon" href="{{ url_for('static', path='favicon.png') }}">
+    <script src="https://kit.fontawesome.com/5f42259ef2.js" crossorigin="anonymous"></script>
+    <script>
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+            history.go(1);
+        };
+    </script>
+</head>
+<body>
+    <h1>Movie Comparison Game</h1>
+
+    {% if is_correct is defined %}
+    <div id="notification" class="notification">
+        {% if is_correct %}
+        <p class="correct wow animate__animated animate__rollIn">Congratulations!<br>
+        You chose the movie with the higher IMDb rating.</p>
+        {% else %}
+        <p class="wrong wow animate__animated animate__rollIn">Oops! <br>
+        You chose the movie with the lower IMDb rating.</p>
+        {% endif %}
+    </div>
+    {% endif %}
+    <h2>Choose the movie with the higher IMDb rating:</h2>
+    <h3 class="wow animate__animated animate__pulse">Score: {{ score }}</h3>
+    <h4 class="wow animate__animated animate__pulse">
+        Lives: 
+        {% for i in range(3) %}
+            {% if i < num_lives %}
+                <i class="fa-solid fa-heart fa-beat-fade" style="color: #ff0000;"></i>
+            {% else %}
+                <i class="fa-regular fa-heart wow animate__animated animate__flash" style="color: #ff0000;"></i>
+            {% endif %}
+        {% endfor %}
+    </h4>
+
+    <form action="/game/{{game_id}}" method="post">
+    <button type="submit" class="movie wow animate__animated animate__fadeInLeft" name="chosen_movie_id" value="{{ base_movie.imdbID }}">
+        <img src="{{ base_movie.Poster }}" alt="{{ base_movie.Title }}">
+        <div class="content">
+            <p class="title">{{ base_movie.Title }}<br><span>IMDb Rating: {{ base_movie.imdbRating }}</span></p>
+            <p>Cast: {{ base_movie.Actors }}</p>
+            <p>Year: {{ base_movie.Year }}</p>
+            <p>Plot: {{ base_movie.Plot_s }}</p>
+        </div>
+    </button>
+    <button type="submit" class="movie wow animate__animated animate__fadeInRight" name="chosen_movie_id" value="{{ hidden_movie.imdbID }}">
+        <img src="{{ hidden_movie.Poster }}" alt="{{ hidden_movie.Title }}">
+        <div class="content">
+            <p class="title">{{ hidden_movie.Title }}<br><span>IMDb Rating: ?.? </span></p>
+            <p>Cast: {{hidden_movie.Actors}}</p>
+            <p>Year: {{ hidden_movie.Year }}</p>
+            <p>Plot: {{ hidden_movie.Plot_s }}</p>
+        </div>
+    </button>   
+    </form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+    <script>
+        new WOW().init();
+    </script>
+    <script>
+        const box = document.getElementById('notification');
+        setTimeout(() => {
+            box.classList.add('animate__hinge');
+            setTimeout(() => {
+                box.style.display = 'none';
+            }, 2000);
+        }, 1500);        
+    </script>
+</body>
+</html>
