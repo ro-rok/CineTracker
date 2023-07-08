@@ -1,6 +1,6 @@
 # Import the required modules.
 import logging
-from fastapi import FastAPI, Form, Request, Depends, status
+from fastapi import FastAPI, Form, HTTPException, Request, Depends, status
 from fastapi.responses import RedirectResponse
 from fastapi.security import HTTPBasic
 from fastapi.staticfiles import StaticFiles
@@ -8,7 +8,13 @@ from fastapi.templating import Jinja2Templates
 import httpx
 from passlib.context import CryptContext
 from .database import MongoDB
+import os
 from pydantic import BaseModel
+
+
+# Get the environment variables.
+mongodb_url = os.getenv("MONGODB_URL")
+omdb_api_key = os.getenv("OMDB_API_KEY")
 
 # Create the FastAPI app.
 app = FastAPI()
@@ -18,7 +24,7 @@ templates = Jinja2Templates(directory="templates")
 logging.basicConfig(level=logging.DEBUG)
 
 # Dependencies
-mongodb = MongoDB("mongodb+srv://rk868:hM86hlQU1F60GVBa@movie.qxbfjsl.mongodb.net/")
+mongodb = MongoDB(mongodb_url)
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 security = HTTPBasic()
 
@@ -43,7 +49,7 @@ async def omdb_search(search_term: str, page_number: int)->tuple[bool, list[dict
     
     # Create the URL and parameters for the request.
     url = "http://www.omdbapi.com/"
-    params = {"apikey": "1a8d2b0d", "s": search_term, "type": "movie", "r": "json","page": page_number}
+    params = {"apikey": omdb_api_key, "s": search_term, "type": "movie", "r": "json","page": page_number}
 
     # Send the request using the httpx module.
     async with httpx.AsyncClient() as client:
@@ -253,7 +259,6 @@ async def search_movies(query: str, request: Request, current_user_id: str = Dep
     
     # Get movies from the API.
     movies = await get_movies(query)
-    save_movies(movies, True)
 
     # Get the current user if there is one.
     current_user = None
@@ -584,8 +589,9 @@ async def process_game(request: Request, game_id: str, current_user_id: str = De
         game_data["num_lives"] -= 1
 
         # If the user has no lives left, redirect to the game over page.
-        if game_data["num_lives"] == 0:
-            return RedirectResponse(f"/game_over/{game_id}")
+        if game_data["num_lives"] < 1:
+            return await game_over(request, game_id, current_user_id)
+
         
     # If the user's chosen movie is the correct movie, increment the score.
     else:
@@ -617,12 +623,15 @@ async def process_game(request: Request, game_id: str, current_user_id: str = De
                                                     "hidden_movie": hidden_movie, "num_lives": game_data["num_lives"], 
                                                     "is_correct": is_correct, "score": score})
 
-@app.post("/game_over/{game_id}")
+@app.route("/game_over/{game_id}", methods=["GET", "POST"])
 async def game_over(request: Request, game_id: str, current_user_id: str = Depends(get_current_user_id)):
     """Renders the game_over.html template for the specified game ID."""
     
     # Get the game data from the database.
     game = mongodb.get_game(game_id)
+
+    if not game:
+        raise HTTPException(status_code=404, detail="Game not found")
 
     # Get the current user from the database.
     user = mongodb.get_user_by_id(current_user_id)
