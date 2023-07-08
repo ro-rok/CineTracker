@@ -281,7 +281,7 @@ When the user loses all three lives, the game is over. The user is redirected to
 To run the CineTracker project, follow these steps:
 
 
-1. Clone the repository: `git clone https://github.com/your-username/CineTracker.git`
+1. Clone the repository: `git clone https://github.com/ro-rok/CineTracker.git`
 2. Create and activate a virtual environment (optional but recommended):
 ```
 python -m venv env
