@@ -34,7 +34,7 @@ The project structure is as follows:
 
 - [`main.py`](https://github.com/ro-rok/Movie_OMDB/blob/main/app/main.py): The main Python file that contains the FastAPI application.
 - [`database.py`](https://github.com/ro-rok/Movie_OMDB/blob/main/app/database.py): A Python file that handles the database operations using MongoDB.
-- [`static/`](https://github.com/ro-rok/Movie_OMDB/tree/main/static): A directory that contains static files such as CSS and JavaScript files.
+- [`static/`](https://github.com/ro-rok/Movie_OMDB/tree/main/static): A directory that contains static files such as CSS and necessary images.
 - [`templates/`](https://github.com/ro-rok/Movie_OMDB/tree/main/templates): A directory that contains HTML templates for rendering the web pages.
 
 ## Features
