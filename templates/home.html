@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie Website</title>
+    <title>CineTracker</title>
     <link rel="stylesheet" href="{{ url_for('static', path='css/home.css') }}">
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
@@ -12,184 +12,185 @@
     <script src="https://kit.fontawesome.com/5f42259ef2.js" crossorigin="anonymous"></script>
 </head>
 <body>
-        <div class="sidebar animate__animated animate__fadeInLeft">
-            <div class="logo">
-                <div class="logo-photo">
-                    <img src="{{ url_for('static', path='logo.png' ) }}" alt="Logo">
+    <div class="sidebar animate__animated animate__fadeInLeft">
+        <div class="logo">
+            <div class="logo-photo">
+                <img src="{{ url_for('static', path='logo.png' ) }}" alt="Logo">
+            </div>
+            <div class="logo-social">Check out my socials:</div>
+            <div class="logo-socials">
+                <a class="logo-socials-btn github" href="https://github.com/ro-rok/">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg>
+                </a>
+                <a class="logo-socials-btn linkedin" href="https://www.linkedin.com/in/khanna-rohan178/">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="512" viewBox="0 0 512 512" height="512"><path d="m51.326 185.85h90.011v270.872h-90.011zm45.608-130.572c-30.807 0-50.934 20.225-50.934 46.771 0 26 19.538 46.813 49.756 46.813h.574c31.396 0 50.948-20.814 50.948-46.813-.589-26.546-19.551-46.771-50.344-46.771zm265.405 124.209c-47.779 0-69.184 26.28-81.125 44.71v-38.347h-90.038c1.192 25.411 0 270.872 0 270.872h90.038v-151.274c0-8.102.589-16.174 2.958-21.978 6.519-16.174 21.333-32.923 46.182-32.923 32.602 0 45.622 24.851 45.622 61.248v144.926h90.024v-155.323c0-83.199-44.402-121.911-103.661-121.911z"></path></svg>
+                </a>
+            </div>
+        </div>
+        <a href="/" class="home-button"><i class="fas fa-home"> Home <span></span></i></a>
+        <a href="/random" class="random-button"><i class="fas fa-random"> Random <span></span></i></a>
+        {% if current_user %}
+            <div class="user">
+                <div class="user-info">
+                    <img src="{{ url_for('static', path='avatars/' + current_user.avatar) }}" alt="Avatar">
+                    <p>{{ current_user.username }}</p>
                 </div>
-                <div class="logo-social">Check out my socials:</div>
-                <div class="logo-socials">
-                    <a class="logo-socials-btn github" href="https://github.com/ro-rok/">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg>
-                    </a>
-                    <a class="logo-socials-btn linkedin" href="https://www.linkedin.com/in/khanna-rohan178/">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="512" viewBox="0 0 512 512" height="512"><path d="m51.326 185.85h90.011v270.872h-90.011zm45.608-130.572c-30.807 0-50.934 20.225-50.934 46.771 0 26 19.538 46.813 49.756 46.813h.574c31.396 0 50.948-20.814 50.948-46.813-.589-26.546-19.551-46.771-50.344-46.771zm265.405 124.209c-47.779 0-69.184 26.28-81.125 44.71v-38.347h-90.038c1.192 25.411 0 270.872 0 270.872h90.038v-151.274c0-8.102.589-16.174 2.958-21.978 6.519-16.174 21.333-32.923 46.182-32.923 32.602 0 45.622 24.851 45.622 61.248v144.926h90.024v-155.323c0-83.199-44.402-121.911-103.661-121.911z"></path></svg>
-                    </a>
+                <div class="user-options">
+                    <a href="{{ url_for('movie_list', username=current_user.username) }}"><i class="fas fa-list"> My List <span></span></i></a>
+                    <a href="/game"><i class="fas fa-gamepad"> Game <span></span></i></a>
+                    <a href="/logout"><i class="fas fa-sign-out-alt"> Logout <span></span></i></a>
                 </div>
             </div>
-            <a href="/" class="home-button"><i class="fas fa-home"> Home <span></span></i></a>
-            <a href="/random" class="random-button"><i class="fas fa-random"> Random <span></span></i></a>
-            {% if current_user %}
-                <div class="user">
-                    <div class="user-info">
-                        <img src="{{ url_for('static', path='avatars/' + current_user.avatar) }}" alt="Avatar">
-                        <p>{{ current_user.username }}</p>
-                    </div>
-                    <div class="user-options">
-                        <a href="{{ url_for('movie_list', username=current_user.username) }}"><i class="fas fa-list"> My List <span></span></i></a>
-                        <a href="/game"><i class="fas fa-gamepad"> Game <span></span></i></a>
-                        <a href="/logout"><i class="fas fa-sign-out-alt"> Logout <span></span></i></a>
-                    </div>
-                </div>
-            {% else %}
-                <a href="/login" class="login-button"><i class="fas fa-sign-in-alt"> Login <span></span></i></a>
-            {% endif %}
-        </div>
+        {% else %}
+            <a href="/login" class="login-button"><i class="fas fa-sign-in-alt"> Login <span></span></i></a>
+        {% endif %}
+    </div>
+    
+    <form action="/search" method="GET" class="search-form">
+
+        <input type="text" name="query" required="">
+        <label>
+            <span style="transition-delay:0ms">M</span>
+            <span style="transition-delay:50ms">o</span>
+            <span style="transition-delay:100ms">v</span>
+            <span style="transition-delay:150ms">i</span>
+            <span style="transition-delay:200ms">e</span>
+            <span style="transition-delay:250ms">s</span>
+            <span style="transition-delay:300ms"> </span>
+            <span style="transition-delay:350ms"><i class="fas fa-search"></i></span>
         
-        <form action="/search" method="GET" class="search-form">
+        </label>
+        <button class="search-button" type="submit">
+            <span class="actual-text">&nbsp;search&nbsp;</span>
+            <span class="hover-text" aria-hidden="true">&nbsp;search&nbsp;</span>
+        </button>
 
-            <input type="text" name="query" required="">
-            <label>
-                <span style="transition-delay:0ms">M</span>
-                <span style="transition-delay:50ms">o</span>
-                <span style="transition-delay:100ms">v</span>
-                <span style="transition-delay:150ms">i</span>
-                <span style="transition-delay:200ms">e</span>
-                <span style="transition-delay:250ms">s</span>
-                <span style="transition-delay:300ms"> </span>
-                <span style="transition-delay:350ms"><i class="fas fa-search"></i></span>
-            
-            </label>
-            <button class="search-button" type="submit">
-                <span class="actual-text">&nbsp;search&nbsp;</span>
-                <span class="hover-text" aria-hidden="true">&nbsp;search&nbsp;</span>
-            </button>
+    </form>
 
-        </form>
-
-        <div class="r_sidebar wow animate__animated animate__fadeInRight">
-            <h3>Current Ranking</h3>
-            {% if leaderboard %}
-                <div class="score">
-                    <p ><span style="color:#FFD700;"><img style =" height: 1em;" src="{{ url_for('static', path='avatars/' + leaderboard[0].avatar) }}" alt="Avatar">
-                        {{ leaderboard[0].username }} : {{leaderboard[0].score}}</span></p>
-                    <p ><span style=" color:#C0C0C0;"><img style =" height: 1em;" src="{{ url_for('static', path='avatars/' + leaderboard[1].avatar) }}" alt="Avatar">
-                        {{ leaderboard[1].username }} : {{leaderboard[1].score}}</span></p>
-                    <p ><span style="color:#CD7F32;"><img style =" height: 1em;" src="{{ url_for('static', path='avatars/' + leaderboard[2].avatar) }}" alt="Avatar">
-                        {{ leaderboard[2].username }} : {{leaderboard[2].score}}</span></p>
-                </div>
-            {% endif %}
-        </div>
-
-        <div class="movies">
-            <h2 class="swiper-heading wow animate__animated animate__fadeInDown">Welcome to the Movie Website!</h2>
-            
-            <!-- User Movies Section-->
-            {% if current_user_movies %}
-                <h2 class="wow animate__animated animate__fadeInDown">Your Movies</h2>
-                <div class="swiper-container wow animate__animated animate__fadeInDown">
-                    <div class="swiper-wrapper">
-                        
-                    {% for movie in current_user_movies %}
-                        <div class="swiper-slide">
-                            <div class="movie swippable">
-                                <div class="movie-poster">
-                                    <div class="movie-poster2">
-                                        <img src="{{ movie.Poster }}" alt="{{ movie.Title }}">
-                                        Click for More Info
-                                        <hr color="white">
-                                        <a href="{{ url_for('movie_page', imdb_id=movie.imdbID) }}">View Details</a>
-                                    </div>
-                                </div>
-                                <div class="movie-details ">
-                                    <h2>{{ movie.Title }}</h2>
-                                    <p>Cast: {{ movie.Actors }}</p>
-                                    <p>Release Date: {{ movie.Released.strftime('%d %b %y') }}</p>
-                                    <p>Director: {{ movie.Director }}</p>
-                                    <p>IMDb Rating: {{ movie.imdbRating }}</p>
-                                </div>
-                                <div class="movie-plot ">
-                                    <h2>Plot:</h2>
-                                    <p>{{ movie.Plot_s }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}  
-                </div>
-                <div class="swiper-pagination" id="user-movies-pagination"></div>
+    <div class="r_sidebar wow animate__animated animate__fadeInRight">
+        <h3>Current Ranking</h3>
+        {% if leaderboard %}
+            <div class="score">
+                <p ><span style="color:#FFD700;"><img style =" height: 1em;" src="{{ url_for('static', path='avatars/' + leaderboard[0].avatar) }}" alt="Avatar">
+                    {{ leaderboard[0].username }} : {{leaderboard[0].score}}</span></p>
+                <p ><span style=" color:#C0C0C0;"><img style =" height: 1em;" src="{{ url_for('static', path='avatars/' + leaderboard[1].avatar) }}" alt="Avatar">
+                    {{ leaderboard[1].username }} : {{leaderboard[1].score}}</span></p>
+                <p ><span style="color:#CD7F32;"><img style =" height: 1em;" src="{{ url_for('static', path='avatars/' + leaderboard[2].avatar) }}" alt="Avatar">
+                    {{ leaderboard[2].username }} : {{leaderboard[2].score}}</span></p>
             </div>
-            {% endif %}
+        {% endif %}
+    </div>
 
-            <!-- Latest Movies Section -->
-            <h2 class="wow animate__animated animate__fadeInDown">Latest Movies</h2>
+    <div class="movies">
+        <h2 class="swiper-heading wow animate__animated animate__fadeInDown">Welcome to the CineTracker</h2>
+        <h4 style="font-style: italic; text-align: center;" class=" wow animate__animated animate__fadeInDown">~Unleash Your Inner Movie Buff~</h4>
+
+        
+        <!-- User Movies Section-->
+        {% if current_user_movies %}
+            <h2 class="wow animate__animated animate__fadeInDown">Your Movies</h2>
             <div class="swiper-container wow animate__animated animate__fadeInDown">
                 <div class="swiper-wrapper">
                     
-                    {% for movie in movies %}
-                        <div class="swiper-slide">
-                            <div class="movie swippable">
-                                <div class="movie-poster">
-                                    <div class="movie-poster2">
-                                        <img src="{{ movie.Poster }}" alt="{{ movie.Title }}">
-                                        Click for More Info
-                                        <hr color="white">
-                                        <a href="{{ url_for('movie_page', imdb_id=movie.imdbID) }}">View Details</a>
-                                    </div>
-                                </div>
-                                <div class="movie-details ">
-                                    <h2>{{ movie.Title }}</h2>
-                                    <p>Cast: {{ movie.Actors }}</p>
-                                    <p>Release Date: {{ movie.Released.strftime('%d %b %y') }}</p>
-                                    <p>Director: {{ movie.Director }}</p>
-                                    <p>IMDb Rating: {{ movie.imdbRating }}</p>
-                                </div>
-                                <div class="movie-plot ">
-                                    <h2>Plot:</h2>
-                                    <p>{{ movie.Plot_s }}</p>
+                {% for movie in current_user_movies %}
+                    <div class="swiper-slide">
+                        <div class="movie swippable">
+                            <div class="movie-poster">
+                                <div class="movie-poster2">
+                                    <img src="{{ movie.Poster }}" alt="{{ movie.Title }}">
+                                    Click for More Info
+                                    <hr color="white">
+                                    <a href="{{ url_for('movie_page', imdb_id=movie.imdbID) }}">View Details</a>
                                 </div>
                             </div>
-                        </div>
-                    {% endfor %}
-                    
-                </div>
-                <div class="swiper-pagination" id="latest-movies-pagination"></div>
-            </div>
-            
-            <!-- Random Movies Section -->
-            <h2 class="wow animate__animated animate__fadeInUp">Random Movies</h2>
-            <div class="swiper-container wow animate__animated animate__fadeInUp">
-                <div class="swiper-wrapper">
-                    {% for r_movie in r_movies %}
-                        <div class="swiper-slide">
-                            <div class="movie swippable">
-                                <div class="movie-poster">
-                                    <div class="movie-poster2">
-                                        <img src="{{ r_movie.Poster }}" alt="{{ r_movie.Title }}">
-                                        Click for More Info
-                                        <hr color="white">
-                                        <a href="{{ url_for('movie_page', imdb_id=r_movie.imdbID) }}">View Details</a>
-                                    </div>
-                                </div>
-                                <div class="movie-details ">
-                                    <h2>{{ r_movie.Title }}</h2>
-                                    <p>Cast: {{ r_movie.Actors }}</p>
-                                    <p>Release Date: {{ r_movie.Released.strftime('%d %b %y') }}</p>
-                                    <p>Director: {{ r_movie.Director }}</p>
-                                    <p>IMDb Rating: {{ r_movie.imdbRating }}</p>
-                                </div>
-                                <div class="movie-plot ">
-                                    <h2>Plot:</h2>
-                                    <p>{{ r_movie.Plot_s }}</p>
-                                </div>
+                            <div class="movie-details ">
+                                <h2>{{ movie.Title }}</h2>
+                                <p>Cast: {{ movie.Actors }}</p>
+                                <p>Release Date: {{ movie.Released.strftime('%d %b %y') }}</p>
+                                <p>Director: {{ movie.Director }}</p>
+                                <p>IMDb Rating: {{ movie.imdbRating }}</p>
+                            </div>
+                            <div class="movie-plot ">
+                                <h2>Plot:</h2>
+                                <p>{{ movie.Plot_s }}</p>
                             </div>
                         </div>
-                    {% endfor %}
-                </div>
-                <div class="swiper-pagination" id="random-movies-pagination"></div>
+                    </div>
+                {% endfor %}  
             </div>
-            
+            <div class="swiper-pagination" id="user-movies-pagination"></div>
+        </div>
+        {% endif %}
+
+        <!-- Latest Movies Section -->
+        <h2 class="wow animate__animated animate__fadeInDown">Latest Movies</h2>
+        <div class="swiper-container wow animate__animated animate__fadeInDown">
+            <div class="swiper-wrapper">
+                
+                {% for movie in movies %}
+                    <div class="swiper-slide">
+                        <div class="movie swippable">
+                            <div class="movie-poster">
+                                <div class="movie-poster2">
+                                    <img src="{{ movie.Poster }}" alt="{{ movie.Title }}">
+                                    Click for More Info
+                                    <hr color="white">
+                                    <a href="{{ url_for('movie_page', imdb_id=movie.imdbID) }}">View Details</a>
+                                </div>
+                            </div>
+                            <div class="movie-details ">
+                                <h2>{{ movie.Title }}</h2>
+                                <p>Cast: {{ movie.Actors }}</p>
+                                <p>Release Date: {{ movie.Released.strftime('%d %b %y') }}</p>
+                                <p>Director: {{ movie.Director }}</p>
+                                <p>IMDb Rating: {{ movie.imdbRating }}</p>
+                            </div>
+                            <div class="movie-plot ">
+                                <h2>Plot:</h2>
+                                <p>{{ movie.Plot_s }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                
+            </div>
+            <div class="swiper-pagination" id="latest-movies-pagination"></div>
+        </div>
+        
+        <!-- Random Movies Section -->
+        <h2 class="wow animate__animated animate__fadeInUp">Random Movies</h2>
+        <div class="swiper-container wow animate__animated animate__fadeInUp">
+            <div class="swiper-wrapper">
+                {% for r_movie in r_movies %}
+                    <div class="swiper-slide">
+                        <div class="movie swippable">
+                            <div class="movie-poster">
+                                <div class="movie-poster2">
+                                    <img src="{{ r_movie.Poster }}" alt="{{ r_movie.Title }}">
+                                    Click for More Info
+                                    <hr color="white">
+                                    <a href="{{ url_for('movie_page', imdb_id=r_movie.imdbID) }}">View Details</a>
+                                </div>
+                            </div>
+                            <div class="movie-details ">
+                                <h2>{{ r_movie.Title }}</h2>
+                                <p>Cast: {{ r_movie.Actors }}</p>
+                                <p>Release Date: {{ r_movie.Released.strftime('%d %b %y') }}</p>
+                                <p>Director: {{ r_movie.Director }}</p>
+                                <p>IMDb Rating: {{ r_movie.imdbRating }}</p>
+                            </div>
+                            <div class="movie-plot ">
+                                <h2>Plot:</h2>
+                                <p>{{ r_movie.Plot_s }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="swiper-pagination" id="random-movies-pagination"></div>
         </div>
     </div>
+
     
     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
