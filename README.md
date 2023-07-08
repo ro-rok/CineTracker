@@ -73,7 +73,7 @@ The search form enables users to search for specific movies using keywords. User
 
 ### Home Page
 
-The home page serves as the main landing page for the Movie Website. It showcases several sections to engage users and provide movie recommendations.
+The home page serves as the main landing page for the CineTracker. It showcases several sections to engage users and provide movie recommendations.
 
 #### - Movie Carousel
 
@@ -113,17 +113,9 @@ The movie page allows users to view detailed information about a specific movie.
 
 Users can interact with the movie page through various actions:
 
-##### Add Movie to List
-
-Users can add movies to their personal list and specify the category (Watched, Plan to Watch, or Dropped) and rating for each movie.
-
-##### Update Movie Status and Rating
-
-Users can update the status (category) and rating of movies in their list.
-
-##### Delete Movie from List
-
-Users can delete movies from their list.
+- Add Movie to List: Users can add movies to their personal list and specify the category (Watched, Plan to Watch, or Dropped) and rating for each movie.
+- Update Movie Status and Rating: Users can update the status (category) and rating of movies in their list.
+- Delete Movie from List: Users can delete movies from their list.
 
 #### - User Reviews
 
@@ -133,7 +125,7 @@ Users can write reviews for movies and provide a rating (score) and recommendati
 
 ### Review Submission
 
-Users can submit reviews for movies on the Movie Website.
+Users can submit reviews for movies on the CineTracker.
 
 #### - Submit Review Page
 
@@ -212,7 +204,7 @@ Users can update the rating of a movie by selecting a new rating from the set of
 
 ### Registration
 
-The registration feature allows users to create a new account on the Movie Website.
+The registration feature allows users to create a new account on the CineTracker.
 
 #### - Registration Page
 
@@ -226,7 +218,7 @@ The server processes the form data and validates the inputs. If the form data is
 
 ### Login Page
 
-The login page allows users to log into the Movie Website using their credentials.
+The login page allows users to log into the CineTracker using their credentials.
 
 #### - Login Form
 
@@ -244,7 +236,7 @@ When the login form is submitted, the form data is sent to the server for proces
 
 ### Logout
 
-Users can log out from the Movie Website, which deletes the user ID cookie and ends their session. When the logout action is triggered, the server deletes the user ID cookie associated with the user's session. After successfully logging out, users are redirected to the home page.
+Users can log out from the CineTracker, which deletes the user ID cookie and ends their session. When the logout action is triggered, the server deletes the user ID cookie associated with the user's session. After successfully logging out, users are redirected to the home page.
 
 ------------------
 
@@ -286,13 +278,13 @@ When the user loses all three lives, the game is over. The user is redirected to
 
 ## Getting Started
 
-To run the Movie Website project, follow these steps:
+To run the CineTracker project, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/your-username/movie-website.git`
+1. Clone the repository: `git clone https://github.com/your-username/CineTracker.git`
 2. Install the dependencies: `pip install -r requirements.txt`
 3. Set up a MongoDB database and update the connection string in `main.py` and `database.py`.
 4. Run the application: `python main.py`
-5. Open a web browser and navigate to `http://localhost:8000` to access the Movie Website.
+5. Open a web browser and navigate to `http://localhost:8000` to access the CineTracker.
 
 ## Dependencies
 
@@ -305,4 +297,4 @@ The project depends on the following Python libraries:
 
 ## Contributing
 
-Contributions to the Movie Website project are welcome. If you find any issues or have suggestions for improvements, please open an issue or submit a pull request on the project's GitHub repository.
+Contributions to the CineTracker project are welcome. If you find any issues or have suggestions for improvements, please open an issue or submit a pull request on the project's GitHub repository.
