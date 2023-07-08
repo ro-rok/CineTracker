@@ -294,6 +294,12 @@ The project depends on the following Python libraries:
 - `httpx`: A fully featured HTTP client library.
 - `passlib`: A password hashing library.
 - `pymongo`: A MongoDB driver for Python.
+- `requests`: A versatile HTTP library for making requests.
+- `jinja2`: A powerful and popular templating engine for Python.
+- `python-multipart`: A library for handling multipart/form-data requests in Python.
+- `uvicorn`: A fast ASGI server implementation.
+- `bcrypt`: A password hashing library providing secure password storage.
+- `pydantic`: A data validation and parsing library for Python.
 
 ## Contributing
 
