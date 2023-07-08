@@ -1,4 +1,8 @@
 fastapi
+httpx
+requests
+jinja2
+python-multipart
 pymongo
 uvicorn
 bcrypt
