@@ -280,11 +280,19 @@ When the user loses all three lives, the game is over. The user is redirected to
 
 To run the CineTracker project, follow these steps:
 
+
 1. Clone the repository: `git clone https://github.com/your-username/CineTracker.git`
-2. Install the dependencies: `pip install -r requirements.txt`
-3. Set up a MongoDB database and update the connection string in `main.py` and `database.py`.
-4. Run the application: `python main.py`
-5. Open a web browser and navigate to `http://localhost:8000` to access the CineTracker.
+2. Create and activate a virtual environment (optional but recommended):
+```
+python -m venv env
+source env/bin/activate  # For Linux/Mac
+env\Scripts\activate    # For Windows
+```
+3. Navigate to the project directory: `cd CineTracker`
+4. Install the dependencies: `pip install -r requirements.txt`
+5. Set up a MongoDB database & OMDb API Key and update them in `main.py`.
+6. Run the application using uvicorn: `uvicorn main:app --reload`
+7. Open a web browser and navigate to `http://localhost:8000/` to access the CineTracker.
 
 ## Dependencies
 
